@@ -30,9 +30,6 @@ for j = 1 : size(theta)
     for i = 1 : m
         grad(j) = grad(j) + 1/m * (sigmoid(theta'*X(i, :)') - y(i)) * X(i, j);
     end
-    if j >= 2
-        grad(j) = grad(j) + lambda / m * theta(j);
-    end
 end
 
 
