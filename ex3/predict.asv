@@ -20,16 +20,10 @@ p = zeros(size(X, 1), 1);
 %       information see 'help max'. If your examples are in rows, then, you
 %       can use max(A, [], 2) to obtain the max for each row.
 %
-
-
-% Note: 1. follow the derivation of predictOneVsAll 
-%       2. follow the sizes
-%       3. don't forget the sigmoid(.)
 X_aug = [ones(m,1), X];
-a_1 = sigmoid(X_aug * Theta1');
-a_1_aug = [ones(m, 1), a_1];
-a_2 = sigmoid(a_1_aug * Theta2');
-[~, p] = max(a_2, [], 2);
+a_1 = X_aug * Theta1';
+a_2 = []
+[~, p] = max(X*all_theta', [], 2);
 
 
 
