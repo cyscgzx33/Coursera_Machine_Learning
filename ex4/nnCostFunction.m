@@ -24,7 +24,7 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
 
 % Setup some useful variables
 m = size(X, 1);
-         
+
 % You need to return the following variables correctly 
 J = 0;
 Theta1_grad = zeros(size(Theta1));
@@ -62,7 +62,15 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
+% Part 1
+K = num_labels;
+for i = 1 : m
+    for k = 1 : K
+        % use equations on the slides instead of the ones on ex4.mlx
+        J = J + (-y(k) * log(sigmoid(X
+    end
+end
+J = J / m;
 
 
 
