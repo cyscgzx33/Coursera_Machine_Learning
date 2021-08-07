@@ -13,16 +13,9 @@ g = zeros(size(z));
 %               each value of z (z can be a matrix, vector or scalar).
 
 
-
-
-
-
-
-
-
-
-
-
+% Must be element-wise multiplication, since z, sigmoid(z) and sigmoid'(z)
+% have same size.
+g = sigmoid(z) .* (1 - sigmoid(z));
 
 
 % =============================================================
