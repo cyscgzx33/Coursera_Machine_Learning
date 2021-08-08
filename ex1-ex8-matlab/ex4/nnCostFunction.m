@@ -62,6 +62,8 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+
+%% Part 1: forward propagation
 % Part 1-1: cost function
 for i = 1 : m
     x = [1, X(i, :)]; % be careful the bias term
@@ -116,9 +118,30 @@ end
 
 J = J + J_regularization * lambda / (2*m);
 
+%% Part 2: backpropagation
+for i = 1 : m
+    x = [1, X(i, :)]; % be careful the bias term
+    z_2 =  x * Theta1'; 
+    a_2 = [1, sigmoid(z_2)]; % be careful the bias term
+    z_3 = a_2 * Theta2'; 
+    a_3 = sigmoid(z_3);
+    % necessary modificaton on y from an int to a vector
+    sz = length(a_3);
+    y_vec = zeros(sz, 1);
+    y_vec(y(i)) = 1;
 
+    delta_3 = a_3' - y_vec;
+    delta_2 = (Theta2' * delta_3) .* sigmoidGradient([1, z_2]');
 
+    Theta1_grad = Theta1_grad + delta_2(2:end) * x;
+    Theta2_grad = Theta2_grad + delta_3 * a_2;
+end
 
+% divide by the accumulated gradients
+Theta1_grad = Theta1_grad / m;
+Theta2_grad = Theta2_grad / m;
+
+%% Part 3:
 
 
 

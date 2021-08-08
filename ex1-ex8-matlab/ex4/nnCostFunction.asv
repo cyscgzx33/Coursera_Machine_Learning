@@ -62,6 +62,8 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+
+% Part 1: forward propagation
 % Part 1-1: cost function
 for i = 1 : m
     x = [1, X(i, :)]; % be careful the bias term
@@ -84,17 +86,15 @@ J = J / m;
 J_regularization = 0;
 [r_theta1, c_theta1] = size(Theta1);
 [r_theta2, c_theta2] = size(Theta2);
-size(Theta1)
-size(Theta2)
 
 %{
 Note:
    1) in x, the first one is bias term
-   2) in Theta, the first row is bias term
+   2) in Theta, 1st row is bias term (after transpose, it's 1st col)
    3) "reshape" method takes element columnwise
 
 Representation of matrices format:
-
+->  x * Theta1'
 [x     1 x 401    ] [xxxxxxxxxx]
                     [          ]
                     [          ]
@@ -105,20 +105,81 @@ Representation of matrices format:
                     [          ]
 %}
 for i = 1 : r_theta1
-    for j = 1 : c_theta2
-        J_regularization = J_regularization + Theta1(i)^2;
+    for j = 2 : c_theta1
+        J_regularization = J_regularization + Theta1(i, j)^2;
     end
 end
 
-for j = 1 : r_theta2 * c_theta2
-    J_regularization = J_regularization + Theta2(j)^2;
+for i = 1 : r_theta2
+    for j = 2 : c_theta2
+        J_regularization = J_regularization + Theta2(i, j)^2;
+    end
 end
 
 J = J + J_regularization * lambda / (2*m);
 
 
+%     x = [1, X(i, :)]; % be careful the bias term
+%     z_2 =  x * Theta1'; 
+%     a_2 = [1, sigmoid(z_2)]; % be careful the bias term
+%     z_3 = a_2 * Theta2'; 
+%     a_3 = sigmoid(z_3);
+%     % necessary modificaton on y from an int to a vector
+%     y_vec = zeros(10, 1);
+%     y_vec(y(i)) = 1;
+    
+%     size(a_2)
+%     size(a_3)
+%     size(y_vec)
+%     
+%     delta_3 = a_3' - y_vec;
+%     
+%     
+%     size(delta_3)
+%     size(Theta2)
+%     size(sigmoidGradient(z_2))
+%     
+%     
+%     size((Theta2' * delta_3))
+%     size(sigmoidGradient([1, z_3]'))
+%     
+%     
+%     delta_2 = (Theta2' * delta_3) .* sigmoidGradient([1, z_2]');
+% %     delta_1 = (Theta1' * delta_2) .* sigmoidGradient([1, z_2]'); 
+%     
+%     size(delta_2)
+% %     size(delta_1)
+
+% Part 2: backpropagation
+
+size(Theta1_grad)
+size(Theta2_grad)
 
 
+
+for i = 1 : m
+    x = [1, X(i, :)]; % be careful the bias term
+    z_2 =  x * Theta1'; 
+    a_2 = [1, sigmoid(z_2)]; % be careful the bias term
+    z_3 = a_2 * Theta2'; 
+    a_3 = sigmoid(z_3);
+    % necessary modificaton on y from an int to a vector
+    y_vec = zeros(10, 1);
+    y_vec(y(i)) = 1;
+    
+    delta_3 = a_3' - y_vec;
+    
+    delta_2 = (Theta2' * delta_3) .* sigmoidGradient([1, z_2]');
+    
+    size(delta_2)
+    size(x)
+    
+    size(delta_3)
+    size(a_2)
+
+    Theta1_grad = Theta1_grad + delta_2(2:end) * x;
+    Theta2_grad = Theta2_grad + delta_3(2:end) * a_2;
+end
 
 
 
