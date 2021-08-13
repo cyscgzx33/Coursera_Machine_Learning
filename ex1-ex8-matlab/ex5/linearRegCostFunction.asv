@@ -27,23 +27,17 @@ end
 
 J = J + lambda * (theta(2:end)' * theta(2:end)) / (2 * m);
 
-%% Part 1.3 (should work on any [n x 1] theta, but not only [2 x 1])
-n = length(grad);
+%% Part 1.3
 for i = 1 : m
     h_x = theta' * X(i, :)';
     grad(1) = grad(1) + (h_x - y(i)) * X(i, 1);
-    for j = 2 : n
-        grad(j) = grad(j) + (h_x - y(i)) * X(i, j);
-    end
+    grad(2) = grad(2) + (h_x - y(i)) * X(i, 2);
 end
 
 grad(1) = grad(1) / m;
+grad(2) = grad(2) / m;
 
-for j = 2 : n
-    grad(j) = grad(j) / m;
-    grad(j) = grad(j) + lambda / m * theta(j);
-end
-
+grad(2) = grad(2) + lambda / m * theta(2);
 % =========================================================================
 
 grad = grad(:);
